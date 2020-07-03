@@ -15,39 +15,31 @@ will be useful, but WITHOUT ANY WARRANTY.
 """
 
 ###############################################################################
+##################### IMPORT ALL THE REQUIRED LIBRARIES #######################
 ###############################################################################
 
 # Import all the required libraries
 import numpy as np
 import matplotlib.pyplot as plt
+from pyvis.network import Network
+import networkx as nx
 
 ###############################################################################
 ###############################################################################
 
-def SpoofResilientWMSR(N, T, F, x0):
+def D3SafeConsensusProtocol(N, T, F, x0, L):
     """
-    Function spoofing_wmsr updates the information state of each
-    vehicles after sorting & removing extreme values from its in-neighbors
+    Function D3SafeConsensusProtocol updates the information state of each
+    vehicles after removing extreme values from its in-neighbors
     Input Parameters:
     N  : Number of agents
     T  : Time Span 
     F  : Number of malicious agents
     x0 : Initial value of agents
+    L  : Graph Laplacian Matrix
     """   
     # Define Data
     x = np.zeros((T+1,N))
-    # Degree Matrix
-    D = np.diag([2, 3, 4, 4, 4, 3, 2])
-    # Adjacency Matrix
-    A = np.array([[0, 1, 1, 0, 0, 0, 0],
-                  [1, 0, 1, 1, 0, 0, 0],
-                  [1, 1, 0, 1, 1, 0, 0],
-                  [0, 1, 1, 0, 1, 1, 0],
-                  [0, 0, 1, 1, 0, 1, 1],
-                  [0, 0, 0, 1, 1, 0, 1],
-                  [0, 0, 0, 0, 1, 1, 0]])
-    # Laplacian matrix
-    L = D - A
     
     # Set values of all vehicles at time = 0 to x_0
     x[0,:] = x0
@@ -60,7 +52,7 @@ def SpoofResilientWMSR(N, T, F, x0):
             if i == 3:
                 continue
             
-            # Extract the i th row
+            # Extract the i^{th} row
             L_i_row = L[:,i]            
             beforeSort = np.column_stack((x[k,:].T, L_i_row.T))
             
@@ -71,6 +63,7 @@ def SpoofResilientWMSR(N, T, F, x0):
             ascendSort = np.sort(beforeSort)
             ascendSort = ascendSort[::-1]            
             indices    = np.nonzero(ascendSort > x[k,i])
+            
             if not indices:
                 if(len(indices) > F):
                     # if # of values larger than x(i) > F, delete F larger ones
@@ -85,6 +78,7 @@ def SpoofResilientWMSR(N, T, F, x0):
             # Removing smaller values          
             ascendSort = np.sort(ascendSort)
             indices    = np.nonzero(ascendSort < x[k,i]) 
+            
             if not indices:
                 if(len(indices) > F):
                     for j in range(F):
@@ -109,23 +103,47 @@ def main():
     # Close any existing figure
     plt.close('all')   
     
-    N  = 7  # Number of agents
-    T  = 30 # Time Span 
+    N  = 8  # Number of agents
+    T  = 50 # Time Span 
     F  = 1  # Number of malicious agents    
-    x0 = 50*np.random.rand(N)
-    # Get the spoof resilient consensus updates for all time steps
-    x  = SpoofResilientWMSR(N, T, F, x0)    
+    x0 = 50*np.random.rand(N) # Initial State Values for all N agents 
+    
+    # Adjacency Matrix
+    A = np.array([[0, 0, 0, 0, 1, 1, 1, 0],
+                  [0, 0, 0, 1, 1, 1, 0, 1],
+                  [0, 0, 0, 1, 1, 0, 1, 1],
+                  [0, 1, 1, 0, 0, 0, 0, 1],
+                  [1, 1, 1, 0, 0, 1, 1, 1],
+                  [1, 1, 0, 0, 1, 0, 1, 1],
+                  [1, 0, 1, 0, 1, 1, 0, 1],
+                  [0, 1, 1, 1, 1, 1, 1, 0]]) 
+    # Degree Matrix
+    D = np.diag(A.sum(axis=1))
+    # Laplacian matrix
+    L = D - A
+    
+    # Display The Graph
+    G = nx.from_numpy_matrix(A)
+    labeldict = {}
+    for i in range(N):
+        labeldict[i] = str(i+1)
+    plt.figure(figsize=(8,10))
+    nx.draw_circular(G, labels = labeldict, with_labels = True)
+    
+    # Get the Safe consensus updates for all time steps
+    x  = D3SafeConsensusProtocol(N, T, F, x0, L)    
+    
     # Plot the values
     timeVector = np.arange(T+1)
+    plt.figure(figsize=(8,10))
     plt.plot(timeVector, x)
     # Code to make the plot more readable
     plt.xlabel("Time Steps", fontsize=18)
     plt.ylabel("Agents States", fontsize=18)    
-    plt.tick_params(axis='both', labelsize=18) 
-    
+    plt.tick_params(axis='both', labelsize=18)  
 
-    
 
+###############################################################################
 ###############################################################################
 
 if __name__ == '__main__':
