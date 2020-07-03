@@ -8,11 +8,9 @@ def animate_nodes(G, node_colors, edge_colors, *args, **kwargs):
 
     pos = netx.drawing.layout.circular_layout(G)
 
-    # draw graph
     Gnodes = netx.draw_networkx_nodes(G, pos, *args, **kwargs)
     Gedges = netx.draw_networkx_edges(G, pos, *args, **kwargs)
     Glabels = netx.draw_networkx_labels(G, pos)
-    # display(Gedges.__dict__)
     plt.axis('off')
 
     def update(i):
@@ -36,6 +34,9 @@ edge_base_color = '#0E0E0E'
 node_malicious_color = '#E55151'
 edge_malicious_color = '#E1BC45'
 
+"""
+Network construction
+"""
 
 A = np.zeros([n_nodes,n_nodes])
 A[0,4]=A[0,5]=A[0,6] = 1
@@ -63,14 +64,9 @@ Maximum number and position of malicious nodes bounded by constraint w.r.t degre
 Time_steps = 50
 min_attackers = 0
 max_attackers = 1
-attacker_choice_set = copy.deepcopy(node_list)
-#
-# display(node_list)
-# display(edge_list)
 
 node_colors=[]
 edge_colors=[]
-#
 for t in range(Time_steps):
     node_colors_t = [node_base_color]*n_nodes
     edge_colors_t = [edge_base_color]*n_edges
