@@ -11,10 +11,10 @@ import cvxpy as cp
 import numpy as np
 
 # Generate a random non-trivial quadratic program.
+np.random.seed(1)
 m = 15
 n = 10
 p = 5
-np.random.seed(1)
 P = np.random.randn(n, n)
 P = P.T @ P
 q = np.random.randn(n)
