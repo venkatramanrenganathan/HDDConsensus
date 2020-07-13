@@ -22,6 +22,14 @@ def animate_nodes(G, node_colors, edge_colors, *args, **kwargs):
     animation = FuncAnimation(fig, update, interval=50, frames=len(node_colors), blit=True)
     return animation
 
+def find_attacker_choice_set(G):
+    choice_set = []
+    for i in netx.classes.function.nodes(G):
+        nbrs = list(netx.classes.function.all_neighbors(G,i))
+        d_nbrs = [netx.classes.function.degree(G,j) for j in nbrs]
+        if all(j>2 for j in d_nbrs):
+            choice_set.append(i)
+    return choice_set
 
 n_nodes = 8
 
@@ -63,8 +71,11 @@ Maximum number and position of malicious nodes bounded by constraint w.r.t degre
 
 Time_steps = 50
 min_attackers = 0
-max_attackers = 1
 
+
+max_attackers = 1
+attacker_choice_set = find_attacker_choice_set(G)
+display(attacker_choice_set)
 node_colors=[]
 edge_colors=[]
 for t in range(Time_steps):
