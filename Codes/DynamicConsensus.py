@@ -44,12 +44,12 @@ def D3SafeConsensusProtocol(N, T, F, x0, L):
     # Set values of all vehicles at time = 0 to x_0
     x[0,:] = x0
     # Set malicious node value to random value
-    x[:,3] = 50 + np.random.randn(T+1)
+    x[:,4] = 100 + np.random.randn(T+1)
     
     for k in range(T):        
         for i in range(N):
-            # Node #4 is malicious, so don't update that index
-            if i == 3:
+            # Node #5 is malicious, so don't update that index
+            if i == 4:
                 continue
             
             # Extract the i^{th} row
