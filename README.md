@@ -6,4 +6,4 @@ This repository contains the code for simulating the History Data Driven (HDD) D
 - Add the path to the folder containing the code from the export fig package
 - Run the main.m by setting loaddata = 0, saveData = 1.
 
-Once you perform the baove steps, the code will run by itself and generate the required results. It required, please rerun the code with different history length and choide of difference confidence bounds range.
+Once you perform the above steps, the code will run by itself and generate the required results plot. If required, please re-run the code with different history length and choide of difference confidence bounds range.
