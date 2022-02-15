@@ -5,4 +5,5 @@ This repository contains the code for simulating the History Data Driven (HDD) D
 - Download the export fig package from https://www.mathworks.com/matlabcentral/fileexchange/23629-export_fig
 - Add the path to the folder containing the code from the export fig package
 - Run the main.m by setting loaddata = 0, saveData = 1.
-- Run the main.m again by setting loaddata = 1 to plot and save the figures
+
+Once you perform the baove steps, the code will run by itself and generate the required results. It required, please rerun the code with different history length and choide of difference confidence bounds range.
