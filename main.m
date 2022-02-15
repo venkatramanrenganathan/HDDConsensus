@@ -79,7 +79,7 @@ if ~loadData
 
     % --- History-based consensus
     % Define the rolling history length    
-    par_HBC.T = 5;
+    par_HBC.T = 15;
     
     % Define the sequence of confidence bounds 
     emin = 0.01;  % minimum (epsilon) confidence bound
@@ -99,6 +99,8 @@ if ~loadData
         emax = 1.50;
     elseif emaxSelect == 4
         emax = 1.00;
+        % Define the rolling history length    
+        par_HBC.T = 5;
     end
     
     % Generate a decreasing sequence of random epsilons from U[emin, emax]

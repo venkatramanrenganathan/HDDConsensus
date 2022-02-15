@@ -114,7 +114,7 @@ set(gca,'FontSize',15);
 w = 1/2;
 
 % Color map of agents
-for in = 1:n
+for in = 1:nr
     
     % Specify the (x,y) position of the agent's color map
     X = in + w*[-1,1,1,-1];
@@ -134,9 +134,9 @@ for in = 1:n
 end
 
 % Set the figure specifications
-xlim([1-w,n+w]); 
+xlim([1-w,nr+w]); 
 ylim([-w,w]); 
-sp_bar.XTick = 1:n; 
+sp_bar.XTick = 1:nr; 
 sp_bar.YTickLabel = [];
 sp_bar.Position(2) = 0.40; % 0.12; Specify the y position of colormap
 sp_bar.Position(4) = 0.05; % 0.05; Specify the height of colormap
@@ -195,18 +195,18 @@ for in = 1:nr
     c.EdgeColor = 'none'; 
     c.FaceColor = col(in,:); 
 end
-for in = (nr+1):n
-    X = in+w*[-1,1,1,-1];
-    Y = w*[-1,-1,1,1];
-    c = patch(X,Y,'r'); 
-    c.EdgeColor = [1 1 1]; 
-    c.FaceColor = [0.9 0.9 0.9]; 
-end
-xlim([1-w,n+w]); 
-sp_bar.XTick = 1:n; 
+% for in = (nr+1):n
+%     X = in+w*[-1,1,1,-1];
+%     Y = w*[-1,-1,1,1];
+%     c = patch(X,Y,'r'); 
+%     c.EdgeColor = [1 1 1]; 
+%     c.FaceColor = [0.9 0.9 0.9]; 
+% end
+xlim([1-w,nr+w]); 
+sp_bar.XTick = 1:nr; 
 ylim([-w,w]); 
 sp_bar.YTickLabel = [];
-xlabel('agents','FontSize',15); 
+xlabel('agents color map','FontSize',15); 
 sp_bar.Position(4) = 0.05; 
 sp_bar.Position(2) = 0.12; 
 %sp2.Position(3)=.95;
